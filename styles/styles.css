@@ -1,0 +1,156 @@
+.texts-container {
+    background-color: rgb(108, 130, 230);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: .7rem;
+    justify-content: center;
+}
+
+.contenedor {
+    background-color: rgb(42, 88, 240);
+    padding: 1rem;
+    text-align: center;
+    border: solid red 2px;
+    border-left: solid red 10px ;
+    border-radius: 5px;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+.contenedor:hover {
+    background-color:rgb(87, 123, 240) ;
+    transition: .5s;
+    color: goldenrod;
+}
+
+.delete {
+    height: 2.5rem;
+    width: 5.5rem;
+    color: aliceblue;
+    background-color: #5055;
+    border-radius: 5px;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    transition: all ease-in-out .5s;
+}
+
+.delete:hover {
+    background-color: rgb(233, 75, 115);
+    transition: .5s;
+    cursor: pointer;
+}
+
+
+
+.form-container{
+    background-color: #2d9ae2;
+    padding: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .7rem;
+}
+
+.title-container {
+    background-color: #eee;
+    padding: 1rem;
+    color:red;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.title-container input {
+    height: 40px;
+    width: 200px;
+    margin-left: 1.2rem;
+    text-align: center;
+}
+
+
+.datos-container {
+    background-color: #eee;
+    padding: 1rem;
+    text-align: center;
+    
+}
+
+.datos-container textarea{
+    height: 100px;
+    width: 300px;
+    text-align: center;
+}
+
+.datos-container label {
+    color: red;
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: block;
+    margin-bottom: 10px;
+   
+
+}
+
+.button {
+    height: 2.7rem;
+    width: 6.5rem;
+    color: aliceblue;
+    background-color: #5055;
+    border-radius: 5px;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    transition: all ease-in-out .5s;
+}
+.button:hover {
+    background-color: rgb(43, 190, 75);
+    transition: .5s;
+    cursor: pointer;
+}
+
+.title-application {
+    background-color: #104070;
+    padding: 2rem;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: aliceblue;
+}
+
+
+@media screen and (max-width:800px) {
+    .datos-container {
+    
+        background-color: #eee;
+        padding: .2rem;
+        text-align: center;
+        
+    }
+    
+    .datos-container textarea{
+        height: 100px;
+        width: 280px;
+        text-align: center;
+    }
+    
+    .texts-container {
+        background-color: rgb(108, 130, 230);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 320px));
+        gap: .5rem;
+        justify-content: center;
+    }
+    
+    
+}
+
+
+
+.edit{
+    background-color: green;
+    padding: .9rem;
+}
+
+.toggle{
+    display: none;
+}

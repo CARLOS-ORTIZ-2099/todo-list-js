@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+        <h1 class="title-application">insertion tasks</h1>
+
+        <form action="" class="form-container" >
+            <div class="title-container">
+                <label for="tarea" class="label-title">titulo de tu tarea</label>
+                <input type="text" id="tarea" name="tarea" class="title-tarea" placeholder="escribe aqui"> 
+            </div>
+              
+
+            <div class="datos-container">
+                <label for="datos" class="label-content">datos sobre tu tarea</label>   
+                <textarea name="datos" id="datos" cols="30" rows="5" class="content-tarea" placeholder="mas info sobre tu tarea"></textarea> 
+            </div>
+           
+            <div>
+               <input  type="submit" value="añadir tarea" class="button">
+            </div>    
+        </form>
+
+        <section class="texts-container">
+
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="js/scripts.js"></script>
+</body>
+</html>
+
+
+
+
+<!-- Se ha asociado cada etiqueta <label> con su campo de entrada correspondiente utilizando 
+     el atributo for. El valor del atributo for debe coincidir con el valor del atributo id 
+     del campo de entrada al que se refiere. 
+-->
