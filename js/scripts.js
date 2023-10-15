@@ -12,7 +12,6 @@ window.addEventListener('DOMContentLoaded', getLs)
 
 function getLs() {
    let taskLs =  JSON.parse(localStorage.getItem('arrayTask'))
-   
     if(taskLs){
         arrayTask = taskLs
         console.log('entro a la funcion')
@@ -21,22 +20,22 @@ function getLs() {
 
 }
 
-
 function createTask(e) {
     e.preventDefault()
     let title = e.target.tarea.value
     let data = e.target.datos.value
-
+    if(title.length < 1 || data.length < 1){
+        alert('ambos campos son requeridos')
+        return
+    }
      let task = {id : new Date().getTime(), title, data,fecha:new Date().toLocaleString()}
      console.log(task)
      arrayTask.push(task)
      console.log(arrayTask)
      
-     e.target.tarea.value = ''
-     e.target.datos.value = ''
+     container.reset()
      add()
 }
-
 
 
 function add () {
@@ -48,8 +47,8 @@ function add () {
             <p>${arrayTask[i].data}</p>
             <textarea class='toggle'></textarea>
             <h2>fecha de creacion: ${arrayTask[i].fecha}</h2>
-            <button class = 'delete'>eliminar</button>
-            <button class = 'edit'>editar</button>
+            <button class = 'delete btn btn-danger'>eliminar</button>
+            <button class = 'edit btn btn-success'>editar</button>
         </div>`
     }
     textsContainer.innerHTML = texto
@@ -104,8 +103,6 @@ function editTask(e){
         }
      
     }
-
-
 
 function deleteTask(e) {
     swal.fire({
