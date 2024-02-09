@@ -1,23 +1,19 @@
+import { alertDelete } from "../helper/alertDelete.js"
+
 const d = document
-const button = d.querySelector('.button')
 const container = d.querySelector('.form-container')
 const textsContainer = d.querySelector('.texts-container')
 let arrayTask = []
 
-/* let dat = new Date().toLocaleDateString()
-console.log(dat) */
 container.addEventListener('submit', createTask)
-
-window.addEventListener('DOMContentLoaded', getLs)
+document.addEventListener('DOMContentLoaded', getLs)
 
 function getLs() {
    let taskLs =  JSON.parse(localStorage.getItem('arrayTask'))
     if(taskLs){
         arrayTask = taskLs
-        console.log('entro a la funcion')
-        add()
+        render()
     }
-
 }
 
 function createTask(e) {
@@ -29,16 +25,25 @@ function createTask(e) {
         return
     }
      let task = {id : new Date().getTime(), title, data,fecha:new Date().toLocaleString()}
-     console.log(task)
      arrayTask.push(task)
+     localStorage.setItem('arrayTask', JSON.stringify(arrayTask))
      console.log(arrayTask)
-     
      container.reset()
-     add()
+     render()
 }
 
 
-function add () {
+function filtrar(e){
+    let  id = e.target.parentNode.id
+    console.log(arrayTask)
+    arrayTask =  arrayTask.filter(element => element.id!= id)
+    console.log(arrayTask);
+    localStorage.setItem('arrayTask',JSON.stringify(arrayTask))
+    render()
+}
+
+
+function render () {
     let texto = ''
     for(let i = 0; i < arrayTask.length; i++){
         texto+=`<div id=${arrayTask[i].id} class = 'contenedor'> 
@@ -53,104 +58,41 @@ function add () {
     }
     textsContainer.innerHTML = texto
 
-    localStorage.setItem('arrayTask', JSON.stringify(arrayTask))
-
      // Agregar eventos de eliminación a cada botón
      const deleteButtons = d.querySelectorAll('.delete');
 
-     deleteButtons.forEach(button => {
-
-         button.addEventListener('click', deleteTask);
-         
-     });
+     deleteButtons.forEach(button => button.addEventListener('click',async (e) => {
+        const isDelete = await alertDelete()
+        isDelete ? filtrar(e) : ''
+       
+     }));
 
      // agregar eventos de edicion para cada boton
      const editButtons = d.querySelectorAll('.edit');
-
-     editButtons.forEach(button => {
-
-         button.addEventListener('click', editTask);
-         
-     });
+     editButtons.forEach(button => button.addEventListener('click', editTask));
 
 }
 
 
 function editTask(e){
-        let target = e.target.parentNode
-        console.log(target)
-      //  console.log(e.target.parentNode.id)
-        let contentTarea =  target.children[2]
-        let textArea =  target.children[3]
-        contentTarea.classList.toggle('toggle')
-        textArea.classList.toggle('toggle')
-
-        console.log(textArea.value)
-        
-        let objeto =  arrayTask.find(e => e.id == target.id)
-        console.log(objeto)
-
-        let indice = arrayTask.findIndex(e => e.id == target.id)
-        console.log(indice)
-
-        if(textArea.value.length > 0){
-            objeto.data = textArea.value
-            console.log(objeto)
-            contentTarea.textContent = objeto.data;
-            arrayTask.splice(indice,1,objeto)
-            localStorage.setItem('arrayTask',JSON.stringify(arrayTask))
-            getLs()
-        }
-     
+    let target = e.target.parentNode
+    console.log(target);
+    let contentTarea =  target.children[2]
+    let textArea =  target.children[3]
+    contentTarea.classList.toggle('toggle')
+    textArea.classList.toggle('toggle')
+    if(textArea.value.length > 0){
+        arrayTask = arrayTask.map((task) => task.id == target.id ? {...task, data : textArea.value} : task)
+        console.log(arrayTask);
+        localStorage.setItem('arrayTask',JSON.stringify(arrayTask))
+        render()
     }
-
-function deleteTask(e) {
-    swal.fire({
-        title:'eliminar',
-        text:'deseas eliminar este mensaje?',
-    
-        icon:'question',
-    
-        confirmButtonText:'aceptar',
-        confirmButtonColor:'green',
-    
-        showCancelButton:true,
-        cancelButtonText:'cancelar',
-        cancelButtonColor:'red',
-    
-        allowOutsideClick:false, // con esto evito que el usuario haga click afuera
-        allowEscapeKey:false, // con esto evito que el usuario pueda salir de la alerta con la 
      
-       
-    }).then((result)=> {
-        console.log(result)
-        if(result.isConfirmed){
-            console.log(result.isConfirmed)
-            swal.fire('Éxito', 'El mensaje ha sido eliminado correctamente', 'success');
-            filtrar(e)
-        }
-        else if(result.dismiss === swal.DismissReason.cancel){
-            console.log(result.dismiss)
-            console.log(swal.DismissReason)
-            swal.fire('Error', 'La eliminación ha sido cancelada', 'error');
-          
-        }
-        
-    })
-   
 }
 
 
- function filtrar(e){
-    let  id = e.target.parentNode.id
-    console.log(id)
-    let filtrado =  arrayTask.filter(element => element.id!= id)
-    console.log(filtrado)
-    arrayTask = filtrado
-    console.log(arrayTask)
-    localStorage.setItem('arrayTask',JSON.stringify(arrayTask))
-    getLs()
-}
+
+
 
 
 
