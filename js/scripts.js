@@ -1,5 +1,4 @@
 import { alertDelete } from "../helper/alertDelete.js"
-
 const d = document
 const container = d.querySelector('.form-container')
 const textsContainer = d.querySelector('.texts-container')
@@ -29,69 +28,80 @@ function createTask(e) {
      localStorage.setItem('arrayTask', JSON.stringify(arrayTask))
      console.log(arrayTask)
      container.reset()
-     render()
+     createHtml(task)
 }
 
+function createHtml(task) {
+    let div = document.createElement('div')
+    div.id = task.id, div.classList.add('contenedor')
+    div.innerHTML= `
+        <h1 class = 'text'>${task.title}</h1>
+        <textarea class='textarea toggle'></textarea>
+        <span>tarea a realizar:</span>
+        <p class = 'text' >${task.data}</p>
+        <textarea class='textarea toggle'></textarea>
+        <h2>fecha de creacion: ${task.fecha}</h2>
+        <button class = 'delete btn btn-danger'>eliminar</button>
+        <button class = 'edit btn btn-success'>editar</button>
+    `
+    textsContainer.appendChild(div)
+}
 
 function filtrar(e){
-    let  id = e.target.parentNode.id
+    let  parentNode = e.target.parentNode
     console.log(arrayTask)
-    arrayTask =  arrayTask.filter(element => element.id!= id)
+    arrayTask =  arrayTask.filter(element => element.id!= parentNode.id)
     console.log(arrayTask);
     localStorage.setItem('arrayTask',JSON.stringify(arrayTask))
-    render()
+    parentNode.remove()
 }
-
 
 function render () {
     let texto = ''
     for(let i = 0; i < arrayTask.length; i++){
         texto+=`<div id=${arrayTask[i].id} class = 'contenedor'> 
-            <h1>${arrayTask[i].title}</h1>
+            <h1 class = 'text'>${arrayTask[i].title}</h1>
+            <textarea class='textarea toggle'></textarea>
             <span>tarea a realizar:</span>
-            <p>${arrayTask[i].data}</p>
-            <textarea class='toggle'></textarea>
+            <p class = 'text' >${arrayTask[i].data}</p>
+            <textarea class='textarea toggle'></textarea>
             <h2>fecha de creacion: ${arrayTask[i].fecha}</h2>
             <button class = 'delete btn btn-danger'>eliminar</button>
             <button class = 'edit btn btn-success'>editar</button>
         </div>`
     }
     textsContainer.innerHTML = texto
-
      // Agregar eventos de eliminación a cada botón
-     const deleteButtons = d.querySelectorAll('.delete');
-
-     deleteButtons.forEach(button => button.addEventListener('click',async (e) => {
-        const isDelete = await alertDelete()
-        isDelete ? filtrar(e) : ''
-       
-     }));
-
-     // agregar eventos de edicion para cada boton
-     const editButtons = d.querySelectorAll('.edit');
-     editButtons.forEach(button => button.addEventListener('click', editTask));
-
 }
-
 
 function editTask(e){
     let target = e.target.parentNode
     console.log(target);
-    let contentTarea =  target.children[2]
-    let textArea =  target.children[3]
-    contentTarea.classList.toggle('toggle')
-    textArea.classList.toggle('toggle')
-    if(textArea.value.length > 0){
-        arrayTask = arrayTask.map((task) => task.id == target.id ? {...task, data : textArea.value} : task)
+    const contentTarea =  target.querySelectorAll('.textarea')
+    const texts = target.querySelectorAll('.text')
+    contentTarea.forEach((element, index) => {
+        element.classList.toggle('toggle')
+        texts[index].classList.toggle('toggle')
+    })
+    if(contentTarea[0].value.length > 0 && contentTarea[1].value.length > 0){
+        alert('editando')
+        arrayTask = arrayTask.map((task) => task.id == target.id ? {...task,title : contentTarea[0].value, data : contentTarea[1].value} : task)
         console.log(arrayTask);
         localStorage.setItem('arrayTask',JSON.stringify(arrayTask))
-        render()
+        texts[0].textContent = contentTarea[0].value, texts[1].textContent = contentTarea[1].value 
     }
-     
+    contentTarea[0].value = '', contentTarea[1].value = ''
 }
 
-
-
+document.addEventListener('click', async (e) => {
+    if(e.target.matches('.delete')){
+        const isDelete = await alertDelete()
+        isDelete ? filtrar(e) : ''
+    }
+    else if(e.target.matches('.edit')){
+        editTask(e)
+    }
+})
 
 
 
